@@ -24,6 +24,16 @@ With Yarn:
 $ yarn add @njakob/terminus
 ```
 
+## Usage
+
+```js
+import Terminus from '@njakob/terminus';
+
+const term = new Terminus();
+
+term.log('Stuff ', term.red('to log'));
+```
+
 ## Licences
 
 `njakob/terminus` is licensed under the [MIT License][licence].
