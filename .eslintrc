@@ -2,11 +2,6 @@
   "extends": [
     "njakob/es6-flow"
   ],
-  "settings": {
-    "import/resolver": {
-      "babel-module": {}
-    }
-  },
   "env": {
     "browser": true
   }
