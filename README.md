@@ -1,5 +1,5 @@
 
-# terminus [![ESLint Config][eslint-config-image]][eslint-config]
+# terminus [![Build Status][build-status-image]][travis] [![ESLint Config][eslint-config-image]][eslint-config]
 
 Universal terminal helper inspired by [Chalk][chalk].
 
@@ -32,6 +32,8 @@ $ yarn add @njakob/terminus
 [chalk]: https://github.com/chalk/chalk
 [eslint-config]: https://github.com/njakob/eslint-config
 [npm]: https://nodei.co/npm/@njakob/terminus
+[travis]: https://travis-ci.org/njakob/terminus
 [npm-install-image]: https://nodei.co/npm/@njakob/terminus.png?downloads=true
 [npm-status-image]: https://img.shields.io/npm/v/@njakob/terminus.svg
+[build-status-image]: https://travis-ci.org/njakob/terminus.svg?branch=master
 [eslint-config-image]: https://img.shields.io/badge/eslint_config-njakob-463fd4.svg
