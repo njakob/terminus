@@ -36,6 +36,13 @@ const decorators = {
   cyan: createDecorator({ key: 'cyan' }),
   white: createDecorator({ key: 'white' }),
   gray: createDecorator({ key: 'gray' }),
+  bold: createDecorator({ key: 'bold' }),
+  dim: createDecorator({ key: 'dim' }),
+  italic: createDecorator({ key: 'italic' }),
+  inverse: createDecorator({ key: 'inverse' }),
+  hidden: createDecorator({ key: 'hidden' }),
+  strikethrough: createDecorator({ key: 'strikethrough' }),
+  underline: createDecorator({ key: 'underline' }),
 };
 
 const node = {};
