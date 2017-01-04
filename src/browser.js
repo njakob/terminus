@@ -48,16 +48,19 @@ export default class Terminus {
         const cssStyles = {};
 
         if (styles.color) {
-          cssStyles.color = colorsMapping[styles.color];
+          cssStyles[styles.inverse ? 'background' : 'color'] = colorsMapping[styles.color];
+        }
+        if (styles.background) {
+          cssStyles[styles.inverse ? 'color' : 'background'] = colorsMapping[styles.background];
+        }
+        if (cssStyles.background && !cssStyles.color) {
+          cssStyles.color = colorsMapping.white;
         }
         if (styles.weight) {
           cssStyles['font-weight'] = weightsMapping[styles.weight];
         }
         if (styles.style) {
           cssStyles['font-style'] = styles.style;
-        }
-        if (styles.inverse) {
-          // TODO: implement inverse when background is available
         }
         if (styles.hidden) {
           cssStyles.opacity = '0%';

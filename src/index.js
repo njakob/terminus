@@ -5,6 +5,17 @@ import { inspect } from 'util';
 import ansiStyles from 'ansi-styles';
 import { createProperties, Data } from './common';
 
+const backgroundsMapping = {
+  black: 'bgBlack',
+  red: 'bgRed',
+  green: 'bgGreen',
+  yellow: 'bgYellow',
+  blue: 'bgBlue',
+  magenta: 'bgMagenta',
+  cyan: 'bgCyan',
+  white: 'bgWhite',
+};
+
 export default class Terminus {
   constructor() {
     Object.defineProperties(this, createProperties());
@@ -22,6 +33,9 @@ export default class Terminus {
 
         if (styles.color) {
           output += ansiStyles[styles.color].open;
+        }
+        if (styles.background) {
+          output += ansiStyles[backgroundsMapping[styles.background]].open;
         }
         if (styles.weight) {
           output += ansiStyles[styles.weight].open;

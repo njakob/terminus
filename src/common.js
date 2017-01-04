@@ -2,6 +2,7 @@
 
 export type Styles = {
   color?: string;
+  background?: string;
   weight?: string;
   style?: string;
   inverse?: boolean;
@@ -21,6 +22,14 @@ export const stylesCollection: {
   cyan: { color: 'cyan' },
   white: { color: 'white' },
   gray: { color: 'gray' },
+  bgBlack: { background: 'black' },
+  bgRed: { background: 'red' },
+  bgGreen: { background: 'green' },
+  bgYellow: { background: 'yellow' },
+  bgBlue: { background: 'blue' },
+  bgMagenta: { background: 'magenta' },
+  bgCyan: { background: 'cyan' },
+  bgWhite: { background: 'white' },
   bold: { weight: 'bold' },
   dim: { weight: 'dim' },
   italic: { style: 'italic' },

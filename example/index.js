@@ -17,6 +17,16 @@ term.log(term.cyan('cyan'));
 term.log(term.white('white'));
 term.log(term.gray('gray'));
 
+term.log('List of background');
+term.log(term.bgBlack('black'));
+term.log(term.bgRed('red'));
+term.log(term.bgGreen('green'));
+term.log(term.bgYellow('yellow'));
+term.log(term.bgBlue('blue'));
+term.log(term.bgMagenta('magenta'));
+term.log(term.bgCyan('cyan'));
+term.log(term.bgWhite('white'));
+
 term.log('List of modifiers');
 term.log(term.bold('bold'));
 term.log(term.dim('dim'));
