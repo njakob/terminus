@@ -3,6 +3,8 @@
 
 Universal terminal helper inspired by [Chalk][chalk].
 
+WIP
+
 ## Features
 
 * Universal
@@ -31,7 +33,7 @@ import Terminus from '@njakob/terminus';
 
 const term = new Terminus();
 
-term.log('Stuff ', term.red('to log'));
+term.log('Stuff', term.red('to log'));
 ```
 
 ## Licences
