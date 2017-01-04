@@ -2,83 +2,64 @@
 /* eslint-disable no-console */
 
 import { inspect } from 'util';
-import styles from 'ansi-styles';
-import { createNode } from './common';
-import type { Decorator } from './common';
-
-class DecoratorData {
-  text: string;
-
-  constructor(text: string = '') {
-    this.text = text;
-  }
-}
-
-type CreateDecoratorOptions = {
-  key: string;
-};
-
-function createDecorator({ key }: CreateDecoratorOptions): Decorator<*> {
-  return (input: string, {
-    text
-  }: DecoratorData = new DecoratorData()): DecoratorData => (
-    new DecoratorData(`${text}${styles[key].open}${input}${styles[key].close}`)
-  );
-}
-
-const decorators = {
-  black: createDecorator({ key: 'blue' }),
-  red: createDecorator({ key: 'red' }),
-  green: createDecorator({ key: 'green' }),
-  yellow: createDecorator({ key: 'yellow' }),
-  blue: createDecorator({ key: 'blue' }),
-  magenta: createDecorator({ key: 'magenta' }),
-  cyan: createDecorator({ key: 'cyan' }),
-  white: createDecorator({ key: 'white' }),
-  gray: createDecorator({ key: 'gray' }),
-  bold: createDecorator({ key: 'bold' }),
-  dim: createDecorator({ key: 'dim' }),
-  italic: createDecorator({ key: 'italic' }),
-  inverse: createDecorator({ key: 'inverse' }),
-  hidden: createDecorator({ key: 'hidden' }),
-  strikethrough: createDecorator({ key: 'strikethrough' }),
-  underline: createDecorator({ key: 'underline' }),
-};
-
-const node = {};
-Object.keys(decorators).forEach((key: string) => {
-  node[key] = {
-    get: (): any => createNode(node, decorators[key], new DecoratorData())
-  };
-});
+import ansiStyles from 'ansi-styles';
+import { createProperties, Data } from './common';
 
 export default class Terminus {
   constructor() {
-    Object.defineProperties(this, node);
+    Object.defineProperties(this, createProperties());
+  }
+
+  transform(...inputs: Array<any>): Array<any> {
+    return inputs.reduce((acc: Array<any>, input: any): Array<any> => {
+      const inputType = typeof input;
+
+      if (inputType === 'number' || inputType === 'string' || input instanceof String) {
+        acc.push(input);
+      } else if (input instanceof Data) {
+        const { text, styles } = input;
+        let output = '';
+
+        if (styles.color) {
+          output += ansiStyles[styles.color].open;
+        }
+        if (styles.weight) {
+          output += ansiStyles[styles.weight].open;
+        }
+        if (styles.style) {
+          output += ansiStyles[styles.style].open;
+        }
+        if (styles.inverse) {
+          output += ansiStyles.inverse.open;
+        }
+        if (styles.hidden) {
+          output += ansiStyles.hidden.open;
+        }
+        if (styles.decoration) {
+          output += ansiStyles[styles.decoration].open;
+        }
+
+        output += text;
+        output += ansiStyles.reset.close;
+
+        acc.push(output);
+      } else {
+        acc.push(inspect(input, {
+          colors: true,
+          depth: null,
+        }));
+      }
+
+      return acc;
+    }, []);
   }
 
   log(...inputs: Array<any>): boolean {
-    let finalText = '';
+    if (typeof console === 'undefined') {
+      return false;
+    }
 
-    inputs.forEach((input: any) => {
-      let data: ?DecoratorData = null;
-
-      if (input instanceof DecoratorData) {
-        data = input;
-      } else if (typeof input === 'string' || input instanceof String) {
-        data = new DecoratorData(input);
-      } else {
-        finalText += `${inspect(input, { colors: true, depth: null })} `;
-      }
-
-      if (data) {
-        const { text }: DecoratorData = data;
-
-        finalText += text;
-      }
-    });
-
-    console.log(finalText);
+    console.log(...this.transform(...inputs));
 
     return true;
   }

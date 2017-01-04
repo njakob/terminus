@@ -1,63 +1,81 @@
 /* @flow */
 /* eslint-disable no-console */
 
-import { createNode } from './common';
-import type { Decorator } from './common';
+import { createProperties, Data } from './common';
+import type { Styles } from './common';
 
-class DecoratorData {
-  text: string;
-  stylesList: Array<any>;
-
-  constructor(text: string = '', stylesList: Array<any> = []) {
-    this.text = text;
-    this.stylesList = stylesList;
-  }
-}
-
-type CreateDecoratorOptions = {
-  color: string;
+const colorsMapping = {
+  black: 'black',
+  red: 'rgb(187,0,0)',
+  green: 'rgb(0,187,0)',
+  yellow: 'rgb(187,187,0)',
+  blue: 'rgb(0,0,187)',
+  magenta: 'rgb(187,0,187)',
+  cyan: 'rgb(0,187,187)',
+  white: 'white',
+  gray: 'gray',
 };
 
-function createDecorator({ color }: CreateDecoratorOptions): Decorator<*> {
-  return (input: string, {
-    text,
-    stylesList,
-  }: DecoratorData = new DecoratorData()): DecoratorData => (
-    new DecoratorData(
-      `${text}%c${input}%c`,
-      [
-        ...stylesList,
-        {
-          color,
-        },
-        {},
-      ]
-    )
-  );
-}
-
-const decorators = {
-  black: createDecorator({ color: 'rgb(0, 0, 0)' }),
-  red: createDecorator({ color: 'rgb(187, 0, 0)' }),
-  green: createDecorator({ color: 'rgb(0, 187, 0)' }),
-  yellow: createDecorator({ color: 'rgb(187, 187, 0)' }),
-  blue: createDecorator({ color: 'rgb(0, 0, 187)' }),
-  magenta: createDecorator({ color: 'rgb(187, 0, 187)' }),
-  cyan: createDecorator({ color: 'rgb(0, 187, 187)' }),
-  white: createDecorator({ color: 'white' }),
-  gray: createDecorator({ color: 'rgb(125, 125, 125)' }),
+const weightsMapping = {
+  bold: 'bold',
+  dim: 200,
 };
 
-const node = {};
-Object.keys(decorators).forEach((key: string) => {
-  node[key] = {
-    get: (): any => createNode(node, decorators[key], new DecoratorData())
-  };
-});
+const decorationsMapping = {
+  strikethrough: 'line-through',
+  underline: 'underline'
+};
+
+function marshal(styles: Styles): string {
+  return Object.keys(styles).reduce((acc: string, key: string): string => (
+    `${acc}${key}:${styles[key]};`
+  ), '');
+}
 
 export default class Terminus {
   constructor() {
-    Object.defineProperties(this, node);
+    Object.defineProperties(this, createProperties());
+  }
+
+  transform(...inputs: Array<any>): Array<any> {
+    return inputs.reduce((acc: Array<any>, input: any): Array<any> => {
+      const inputType = typeof input;
+
+      if (inputType === 'number' || inputType === 'string' || input instanceof String) {
+        acc.push(input);
+      } else if (input instanceof Data) {
+        const { text, styles } = input;
+        const cssStyles = {};
+
+        if (styles.color) {
+          cssStyles.color = colorsMapping[styles.color];
+        }
+        if (styles.weight) {
+          cssStyles['font-weight'] = weightsMapping[styles.weight];
+        }
+        if (styles.style) {
+          cssStyles['font-style'] = styles.style;
+        }
+        if (styles.inverse) {
+          // TODO: implement inverse when background is available
+        }
+        if (styles.hidden) {
+          cssStyles.opacity = '0%';
+        }
+        if (styles.decoration) {
+          cssStyles['text-decoration'] = decorationsMapping[styles.decoration];
+        }
+
+        // Any empty string as CSS permits to reset the styles
+        acc.push(`%c${text}%c`);
+        acc.push(marshal(cssStyles));
+        acc.push('');
+      } else {
+        acc.push(input);
+      }
+
+      return acc;
+    }, []);
   }
 
   log(...inputs: Array<any>): boolean {
@@ -65,38 +83,7 @@ export default class Terminus {
       return false;
     }
 
-    const finalStylesList = [];
-    const objects = [];
-    let finalText = '';
-
-    inputs.forEach((input: any) => {
-      let data: ?DecoratorData = null;
-
-      if (input instanceof DecoratorData) {
-        data = input;
-      } else if (typeof input === 'string' || input instanceof String) {
-        data = new DecoratorData(input);
-      } else {
-        objects.push(input);
-      }
-
-      if (data) {
-        const { text, stylesList }: DecoratorData = data;
-
-        finalText += text;
-        finalStylesList.push(...stylesList.map((styles: any): string => (
-          Object.keys(styles).reduce((acc: string, key: string): string => (
-            `${acc}${key}:${styles[key]};`
-          ), '')
-        )));
-      }
-    });
-
-    if (finalText) {
-      console.log(finalText, ...finalStylesList, ...objects);
-    } else {
-      console.log(...objects);
-    }
+    console.log(...this.transform(...inputs));
 
     return true;
   }
