@@ -92,3 +92,24 @@ export function createProperties(): any {
 
   return properties;
 }
+
+export type Transform = (string: string, args: Array<any>) => string;
+
+export function parse(strings: Array<any>, keys: Array<any>, transform: Transform): Array<any> {
+  const args = [];
+  const length = strings.length;
+  let output = '';
+
+  for (let i = 0; i < length; i += 1) {
+    output += strings[i];
+
+    if (i !== length - 1) {
+      output += transform(keys[i], args);
+    }
+  }
+
+  return [
+    output,
+    ...args,
+  ];
+}
