@@ -70,6 +70,10 @@ term.log`Stuff to ${term.red('log')} with some ${term.bold.blue('colors')}`;
 * `` term.log`${term.strikethrough('strikethrough')}` ``
 * `` term.log`${term.underline('underline')}` ``
 
+## Known issues
+
+* Usage of tagged template literals with side effects would raise an error if the ESLint rule `no-unused-expressions` is enabled. ([eslint/eslint#7632](https://github.com/eslint/eslint/issues/7632))
+
 ## Licences
 
 `njakob/terminus` is licensed under the [MIT License][licence].
