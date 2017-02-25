@@ -1,5 +1,5 @@
 
-# terminus [![Build Status][build-status-image]][travis] [![ESLint Config][eslint-config-image]][eslint-config]
+# terminus [![NPM version][npm-status-image]][npm] [![Build Status][build-status-image]][travis] [![ESLint Config][eslint-config-image]][eslint-config]
 
 Universal terminal helper inspired by [Chalk][chalk].
 
