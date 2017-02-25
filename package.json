@@ -32,14 +32,16 @@
   "main": "lib/index.js",
   "browser": "lib/browser.js",
   "scripts": {
-    "build": "babel -d lib src && flow gen-flow-files --out-dir lib src/index.js && flow gen-flow-files --out-dir lib src/browser.js",
-    "lint": "eslint --fix .",
+    "clean": "rimraf lib",
+    "build": "npm run clean && babel -d lib src && flow gen-flow-files --out-dir lib src/index.js && flow gen-flow-files --out-dir lib src/browser.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "flow": "flow check",
-    "test": "npm run flow && npm run build",
-    "bump-major": "npm version major -m \"Bump to %s\"",
-    "bump-minor": "npm version minor -m \"Bump to %s\"",
-    "bump-patch": "npm version patch -m \"Bump to %s\"",
-    "prepublish": "npm run test",
+    "validate": "npm run lint && npm run flow",
+    "bump:major": "npm version major -m \"Bump to %s\"",
+    "bump:minor": "npm version minor -m \"Bump to %s\"",
+    "bump:patch": "npm version patch -m \"Bump to %s\"",
+    "prepublish": "npm run validate && npm run build",
     "example-node": "babel-node example",
     "example-browser": "browserify example/index.js -o example/bundle.js -t babelify && opener example/browser.html"
   },
@@ -57,7 +59,8 @@
     "eslint-plugin-flowtype": "^2.18.2",
     "eslint-plugin-import": "^2.2.0",
     "flow-bin": "^0.37.4",
-    "opener": "^1.4.2"
+    "opener": "^1.4.2",
+    "rimraf": "^2.6.1"
   },
   "dependencies": {
     "ansi-styles": "^2.2.1"
