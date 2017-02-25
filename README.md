@@ -11,17 +11,15 @@ Universal terminal helper inspired by [Chalk][chalk].
 
 ## Installation
 
-[![NPM][npm-install-image]][npm]
-
 With NPM:
 
-```
+```sh
 $ npm install @njakob/terminus
 ```
 
 With Yarn:
 
-```
+```sh
 $ yarn add @njakob/terminus
 ```
 
@@ -79,7 +77,6 @@ term.log`Stuff to ${term.red('log')} with some ${term.bold.blue('colors')}`;
 [eslint-config]: https://github.com/njakob/eslint-config
 [npm]: https://nodei.co/npm/@njakob/terminus
 [travis]: https://travis-ci.org/njakob/terminus
-[npm-install-image]: https://nodei.co/npm/@njakob/terminus.png?downloads=true
 [npm-status-image]: https://img.shields.io/npm/v/@njakob/terminus.svg
 [build-status-image]: https://travis-ci.org/njakob/terminus.svg?branch=master
 [eslint-config-image]: https://img.shields.io/badge/eslint_config-njakob-463fd4.svg
