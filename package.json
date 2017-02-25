@@ -31,9 +31,6 @@
   ],
   "main": "lib/index.js",
   "browser": "lib/browser.js",
-  "files": [
-    "lib"
-  ],
   "scripts": {
     "build": "babel -d lib src && flow gen-flow-files --out-dir lib src/index.js && flow gen-flow-files --out-dir lib src/browser.js",
     "lint": "eslint --fix .",
