@@ -37,11 +37,11 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "flow": "flow check",
-    "validate": "npm run lint && npm run flow",
+    "test": "npm run lint && npm run flow",
     "bump:major": "npm version major -m \"Bump to %s\"",
     "bump:minor": "npm version minor -m \"Bump to %s\"",
     "bump:patch": "npm version patch -m \"Bump to %s\"",
-    "prepublish": "npm run validate && npm run build",
+    "prepublish": "npm run test && npm run build",
     "example-node": "babel-node example",
     "example-browser": "browserify example/index.js -o example/bundle.js -t babelify && opener example/browser.html"
   },
