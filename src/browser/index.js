@@ -1,8 +1,8 @@
 /* @flow */
 /* eslint-disable no-console */
 
-import { createProperties, parse, Data } from './common';
-import type { Styles } from './common';
+import { createProperties, parse, Data } from '../common';
+import type { Styles } from '../common';
 
 const colorsMapping = {
   black: 'black',

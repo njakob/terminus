@@ -29,11 +29,12 @@
     "api",
     "library"
   ],
-  "main": "lib/index.js",
-  "browser": "lib/browser.js",
+  "main": "lib/node/index.js",
+  "browser": "lib/browser/index.js",
   "scripts": {
     "clean": "rimraf lib",
-    "build": "npm run clean && babel -d lib src && flow gen-flow-files --out-dir lib src/index.js && flow gen-flow-files --out-dir lib src/browser.js",
+    "build": "npm run clean && babel -d lib src && npm run build:flow",
+    "build:flow": "flow gen-flow-files --out-dir lib src/common.js && flow gen-flow-files --out-dir lib/node src/node/index.js && flow gen-flow-files --out-dir lib/browser src/browser/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "flow": "flow check",
@@ -42,8 +43,8 @@
     "bump:minor": "npm version minor -m \"Bump to %s\"",
     "bump:patch": "npm version patch -m \"Bump to %s\"",
     "prepublish": "npm run test && npm run build",
-    "example-node": "babel-node example",
-    "example-browser": "browserify example/index.js -o example/bundle.js -t babelify && opener example/browser.html"
+    "example:node": "babel-node example",
+    "example:browser": "browserify example/index.js -o example/bundle.js -t babelify && opener example/browser.html"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

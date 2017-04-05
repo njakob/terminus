@@ -3,7 +3,7 @@
 
 import { inspect } from 'util';
 import ansiStyles from 'ansi-styles';
-import { createProperties, parse, Data } from './common';
+import { createProperties, parse, Data } from '../common';
 
 const backgroundsMapping = {
   black: 'bgBlack',

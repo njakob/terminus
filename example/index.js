@@ -1,4 +1,4 @@
-import Terminus from '../lib';
+import Terminus from '..';
 
 const term = new Terminus();
 
